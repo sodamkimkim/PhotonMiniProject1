@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
     private Color playerColor = new Color(0, 0, 256);
 
     private const float runSpeed = 4f;
+    private const float jumpSpeed = 6.5f;
     private const float rotSpeed = 100f;
 
     Transform playerTr = null;
@@ -37,6 +38,7 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsFallingDown", false);
         anim.SetBool("IsWalking", false);
+        anim.SetBool("IsForwardJumping", false);
 
         if (Input.GetKey(KeyCode.UpArrow)&& IsWalkable)
         {
@@ -75,43 +77,41 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && IsWalkable)
         {
             float axisJ = Input.GetAxis("Jump");
-            transform.Translate(Vector3.up * axisJ * runSpeed * 1.5f * Time.deltaTime);
+            transform.Translate(Vector3.up * axisJ * jumpSpeed * Time.deltaTime);
+            anim.SetBool("IsForwardJumping", true);
         }
 
     }
-    private void OnTriggerEnter(Collider _other)
-    {
-        if (_other.CompareTag("Flag"))
-        {
-            Debug.Log("flag");
-        }
-
-    }
-
     private void OnCollisionEnter(Collision _other)
     {
         if (_other.gameObject.CompareTag("Floor"))
         {
-            Debug.Log("Floor");
             IsWalkable = true;
         }
         if (_other.gameObject.CompareTag("NotWalkable"))
         {
             IsWalkable = false;
             Debug.Log("NotWalkable");
-            playerTr.position = transform.position + (-transform.forward * runSpeed*1.2f * Time.deltaTime);
+            playerTr.position = transform.position + (-transform.forward * runSpeed*1.7f * Time.deltaTime);
         }
 
     }
-    private void OnCollisionExit(Collision _other)
+    private void OnCollisionEnter(Collider _other)
     {
-        //if (_other.gameObject.CompareTag("NotWalkable"))
-        //{
-  
-        //    IsWalkable = true;
-        //    Debug.Log("NotWalkable Exit");
-    
-        //}
-    }
+        if (_other.CompareTag("BluePlayer") || _other.CompareTag("RedPlayer"))
+        {
+            Flag flag = this.GetComponentInChildren<Flag>();
+            if(flag !=null)
+            {
+                Debug.Log("±ê¹ß »¯±ä´Ù!");
+            }
 
+        }
+
+    }
+    public Transform GetPlayerTr()
+    {
+        return playerTr;
+    }
+    
 } // end of class

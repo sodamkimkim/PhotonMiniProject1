@@ -9,6 +9,8 @@ TagManager:
   - Flag
   - Wall
   - NotWalkable
+  - BluePlayer
+  - RedPlayer
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - NavMesh
   - Water
   - UI
-  - 
-  - 
+  - OnlyMap
+  - NotMap
   - 
   - 
   - 
