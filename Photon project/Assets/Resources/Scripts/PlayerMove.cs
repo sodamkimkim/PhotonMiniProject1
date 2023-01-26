@@ -20,6 +20,7 @@ public class PlayerMove : MonoBehaviour
 
     private Animator anim = null;
     private bool IsForward = true;
+  //  private bool IsJumping = false;
 
     bool IsWalkable = true;
 
@@ -74,7 +75,7 @@ public class PlayerMove : MonoBehaviour
             playerTr.Rotate(Vector3.up, rotSpeed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.Space) && IsWalkable)
+        if (Input.GetKey(KeyCode.Space) && IsWalkable )
         {
             float axisJ = Input.GetAxis("Jump");
             transform.Translate(Vector3.up * axisJ * jumpSpeed * Time.deltaTime);
@@ -84,17 +85,18 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnCollisionEnter(Collision _other)
     {
-        if (_other.gameObject.CompareTag("Floor"))
+        if (_other.gameObject.CompareTag("Floor")|| _other.gameObject.CompareTag("Wall"))
         {
+            //IsJumping = false;
             IsWalkable = true;
         }
+
         if (_other.gameObject.CompareTag("NotWalkable"))
         {
             IsWalkable = false;
             Debug.Log("NotWalkable");
             playerTr.position = transform.position + (-transform.forward * runSpeed*1.7f * Time.deltaTime);
         }
-
     }
     private void OnCollisionEnter(Collider _other)
     {
