@@ -6,6 +6,7 @@ public class Flag : MonoBehaviour
 {
     private Transform flagTr = null;
     private Vector3 flagOriginPos = Vector3.zero;
+
     private void Awake()
     {
         flagTr = GetComponent<Transform>();
@@ -50,15 +51,14 @@ public class Flag : MonoBehaviour
     }
 
     // flag의 맵생성당시의 position으로 셋팅
-    private void SetFlagOriginPos(Vector3 _flagOriginPos)
+    public void SetFlagOriginPos()
     {
-        Vector3 newPos = _flagOriginPos;
+        this.gameObject.transform.SetParent(null);
+        Vector3 newPos = flagOriginPos;
         flagTr.position = newPos;
 
         flagTr.localScale = new Vector3(1f, 1f, 1f);
         flagTr.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
-
-
 
 } // end of calss

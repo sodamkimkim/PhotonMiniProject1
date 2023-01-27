@@ -5,11 +5,8 @@ using UnityEngine.AI;
 
 public class PlayerMove : MonoBehaviour
 {
-
-    private Color playerColor = new Color(0, 0, 256);
-
     private const float runSpeed = 4f;
-    private const float jumpSpeed = 6.5f;
+    private const float jumpSpeed =6.5f;
     private const float rotSpeed = 100f;
 
     Transform playerTr = null;
@@ -74,12 +71,12 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("IsWalking", true);
             playerTr.Rotate(Vector3.up, rotSpeed * Time.deltaTime);
         }
-
+       
         if (Input.GetKey(KeyCode.Space) && IsWalkable )
         {
+            anim.SetBool("IsForwardJumping", true);
             float axisJ = Input.GetAxis("Jump");
             transform.Translate(Vector3.up * axisJ * jumpSpeed * Time.deltaTime);
-            anim.SetBool("IsForwardJumping", true);
         }
 
     }
@@ -87,7 +84,6 @@ public class PlayerMove : MonoBehaviour
     {
         if (_other.gameObject.CompareTag("Floor")|| _other.gameObject.CompareTag("Wall"))
         {
-            //IsJumping = false;
             IsWalkable = true;
         }
 

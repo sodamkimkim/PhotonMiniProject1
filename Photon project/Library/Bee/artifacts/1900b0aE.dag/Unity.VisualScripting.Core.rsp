@@ -114,6 +114,8 @@
 -define:ENABLE_TIMELINE
 -define:ENABLE_LEGACY_INPUT_MANAGER
 -define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
+-define:CROSS_PLATFORM_INPUT
+-define:UNITY_POST_PROCESSING_STACK_V2
 -define:PHOTON_UNITY_NETWORKING
 -define:PUN_2_0_OR_NEWER
 -define:PUN_2_OR_NEWER
@@ -125,6 +127,10 @@
 -define:CSHARP_7_3_OR_NEWER
 -r:"Assets/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll"
 -r:"Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll"
+-r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.burst@1.8.2/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll"
+-r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.burst@1.8.2/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll"
+-r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.burst@1.8.2/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll"
+-r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.burst@1.8.2/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll"
 -r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.collab-proxy@1.17.7/Lib/Editor/PlasticSCM/log4netPlastic.dll"
 -r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.collab-proxy@1.17.7/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll"
 -r:"C:/PhotonMiniProject001/PhotonMiniProject1/Photon project/Library/PackageCache/com.unity.collab-proxy@1.17.7/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll"
