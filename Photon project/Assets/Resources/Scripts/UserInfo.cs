@@ -22,7 +22,7 @@ public class UserInfo : MonoBehaviour
     // 게임 시작할 때 0. 현재 진행중인 게임에서의 score
     private int inGamePersonalScore;
 
-    public void SetInGamePersonamScore(int _score)
+    public void SetInGamePersonalScore(int _score)
     {
         inGamePersonalScore += _score;
     }

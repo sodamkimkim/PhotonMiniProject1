@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    
     public enum eTeamName { BlueTeam, RedTeam }
 
     // Blue goal post obj를 넣어주기
@@ -27,7 +26,7 @@ public class ScoreManager : MonoBehaviour
         {
             redTeam.SetTeamScore(_score);
         }
-        _userInfo.SetInGamePersonamScore(_score);
+        _userInfo.SetInGamePersonalScore(_score);
     }
 
     public override string ToString()

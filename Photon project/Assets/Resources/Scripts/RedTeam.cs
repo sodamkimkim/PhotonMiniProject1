@@ -4,35 +4,35 @@ using UnityEngine;
 
 public class RedTeam : Team
 {
-    string redTeamName = null;
-    List<string> redTeamMemList = new List<string>();
-    int redTeamScore;
+    string teamName = null;
+    List<string> teamMemList = new List<string>();
+    int teamScore;
 
     private void Awake()
     {
-        redTeamName = ScoreManager.eTeamName.RedTeam.ToString();
+        teamName = ScoreManager.eTeamName.RedTeam.ToString();
     }
     public override string GetTeamName()
     {
-        return redTeamName;
+        return teamName;
     }
     public override List<string> GetTeamMemList()
     {
-        return redTeamMemList;
+        return teamMemList;
     }
 
     public override int GetTeamScore()
     {
-        return redTeamScore;
+        return teamScore;
     }
 
     public override void SetTeamMemList(string _playerNickName)
     {
-        redTeamMemList.Add(_playerNickName);
+        teamMemList.Add(_playerNickName);
     }
 
     public override void SetTeamScore(int _score)
     {
-        redTeamScore += _score;
+        teamScore += _score;
     }
 }

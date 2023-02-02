@@ -4,36 +4,36 @@ using UnityEngine;
 
 public class BlueTeam : Team
 {
-    string blueTeamName = null;
-    List<string> blueTeamMemList = new List<string>();
-    int blueTeamScore;
+    string teamName = null;
+    List<string> teamMemList = new List<string>();
+    int teamScore;
 
     private void Awake()
     {
-        blueTeamName = ScoreManager.eTeamName.BlueTeam.ToString();
+        teamName = ScoreManager.eTeamName.BlueTeam.ToString();
     }
     public override string GetTeamName()
     {
-        return blueTeamName;
+        return teamName;
     }
 
     public override List<string> GetTeamMemList()
     {
-        return blueTeamMemList;
+        return teamMemList;
     }
     public override int GetTeamScore()
     {
-        return blueTeamScore;
+        return teamScore;
     }
 
     public override void SetTeamMemList(string _playerNickName)
     {
-        blueTeamMemList.Add(_playerNickName);
+        teamMemList.Add(_playerNickName);
     }
 
     public override void SetTeamScore(int _score)
     {
-        blueTeamScore += _score;
+        teamScore += _score;
     }
 
 

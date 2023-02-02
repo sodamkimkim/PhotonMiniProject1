@@ -4,9 +4,6 @@ using UnityEngine;
 
 public abstract class Team :MonoBehaviour
 {
-    string teamName = null;
-    private List<string> teamMemList = new List<string>();
-    private int nowTeamScore;
 
     public abstract string GetTeamName();
     public abstract List<string> GetTeamMemList();
