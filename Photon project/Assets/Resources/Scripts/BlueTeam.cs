@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BlueTeam : Team
 {
-    string teamName = null;
-    List<string> teamMemList = new List<string>();
-    int teamScore;
+    private string teamName = null;
+    private List<string> teamMemList = new List<string>();
+    private int teamScore;
+    private TeamMesh ms = null;
+    private TeamMeshInMap teamMsInMap= null;
 
     private void Awake()
     {
         teamName = ScoreManager.eTeamName.BlueTeam.ToString();
+        ms = GetComponentInChildren<TeamMesh>();
+        teamMsInMap = GetComponentInChildren<TeamMeshInMap>();
     }
     public override string GetTeamName()
     {
@@ -36,5 +41,10 @@ public class BlueTeam : Team
         teamScore += _score;
     }
 
-
+    [PunRPC]
+    public override void SetUp(string _playerColor)
+    {
+        ms.setMaterial(_playerColor);
+        teamMsInMap.SetMaterial(_playerColor);
+    }
 }

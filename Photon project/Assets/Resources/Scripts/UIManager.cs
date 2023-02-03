@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,13 +20,18 @@ public class UIManager : MonoBehaviour
     private static UIManager m_instance;
     
     [SerializeField]
-    private Text redteamScoreTxt;
+    private TextMeshProUGUI redteamScoreTxt;
 
     [SerializeField]
-    private Text blueteamScoreTxt;
+    private TextMeshProUGUI blueteamScoreTxt;
 
     [SerializeField]
     private GameObject gameOverUI; // 게임 오버시 활성화할 UI
+
+    [SerializeField]
+    private TextMeshProUGUI endTimeTxt;
+    [SerializeField]
+    private TextMeshProUGUI nowTimeTxt;
 
     private void Awake()
     {
@@ -34,6 +40,7 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     public void UpdateRedteamScore(int _newScore)
     {
         redteamScoreTxt.text = "" + _newScore;
@@ -42,8 +49,16 @@ public class UIManager : MonoBehaviour
     {
         blueteamScoreTxt.text = "" + _newScore;
     }
-    public void SetActiveGameOberUI(bool _active)
+    public void SetActiveGameOverUI(bool _active)
     {
         gameOverUI.SetActive(_active);
+    }
+    public void SetNowTime(float _nowTime)
+    {
+        nowTimeTxt.text = ""+ (int)_nowTime;
+    }
+    public void SetEndTime(int _endTime)
+    {
+        endTimeTxt.text = "" + _endTime;
     }
 } // end of class

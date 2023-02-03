@@ -1,58 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.AI;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviourPun
 {
     private const float runSpeed = 4f;
-    private const float jumpSpeed =6.5f;
+    private const float jumpSpeed = 6.5f;
     private const float rotSpeed = 100f;
 
     Transform playerTr = null;
-    private NavMeshAgent agent = null;
-    private LayerMask layerMask;
 
     private bool isDead = false;
 
     private Animator anim = null;
     private bool IsForward = true;
-  //  private bool IsJumping = false;
+    //  private bool IsJumping = false;
 
     bool IsWalkable = true;
 
     private void Awake()
     {
-        playerTr = this.GetComponent<Transform>();
-        anim = GetComponent<Animator>();
 
     }
     private void Start()
     {
         isDead = false;
+        playerTr = this.GetComponent<Transform>();
+        anim = GetComponent<Animator>();
     }
     private void Update()
     {
+        if (!photonView.IsMine) return;
+         
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsFallingDown", false);
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsForwardJumping", false);
 
-        if (Input.GetKey(KeyCode.UpArrow)&& IsWalkable)
+        if (Input.GetKey(KeyCode.UpArrow) && IsWalkable)
         {
             anim.SetBool("IsRunning", true);
 
-                if (!IsForward)
-                {
-                    IsForward = true;
-                }
-                playerTr.position = transform.position + (transform.forward * runSpeed * Time.deltaTime);
+            if (!IsForward)
+            {
+                IsForward = true;
+            }
+            playerTr.position = transform.position + (transform.forward * runSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.DownArrow) && IsWalkable)
         {
             anim.SetBool("IsRunning", true);
-            if (IsForward )
+            if (IsForward)
             {
                 IsForward = false;
             }
@@ -71,18 +72,17 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("IsWalking", true);
             playerTr.Rotate(Vector3.up, rotSpeed * Time.deltaTime);
         }
-       
-        if (Input.GetKey(KeyCode.Space) && IsWalkable )
+
+        if (Input.GetKey(KeyCode.Space) && IsWalkable)
         {
             anim.SetBool("IsForwardJumping", true);
             float axisJ = Input.GetAxis("Jump");
             transform.Translate(Vector3.up * axisJ * jumpSpeed * Time.deltaTime);
         }
-
     }
     private void OnCollisionEnter(Collision _other)
     {
-        if (_other.gameObject.CompareTag("Floor")|| _other.gameObject.CompareTag("Wall"))
+        if (_other.gameObject.CompareTag("Floor") || _other.gameObject.CompareTag("Wall"))
         {
             IsWalkable = true;
         }
@@ -91,7 +91,7 @@ public class PlayerMove : MonoBehaviour
         {
             IsWalkable = false;
             Debug.Log("NotWalkable");
-            playerTr.position = transform.position + (-transform.forward * runSpeed*1.7f * Time.deltaTime);
+            playerTr.position = transform.position + (-transform.forward * runSpeed * 1.7f * Time.deltaTime);
         }
     }
     private void OnCollisionEnter(Collider _other)
@@ -99,7 +99,7 @@ public class PlayerMove : MonoBehaviour
         if (_other.CompareTag("BluePlayer") || _other.CompareTag("RedPlayer"))
         {
             Flag flag = this.GetComponentInChildren<Flag>();
-            if(flag !=null)
+            if (flag != null)
             {
                 Debug.Log("±ê¹ß »¯±ä´Ù!");
             }
@@ -111,5 +111,5 @@ public class PlayerMove : MonoBehaviour
     {
         return playerTr;
     }
-    
+
 } // end of class

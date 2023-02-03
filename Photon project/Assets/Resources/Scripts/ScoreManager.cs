@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
     // Red goal post obj를 넣어주기
     [SerializeField]
     Team redTeam = null;
+
     private void Awake()
     {
 
@@ -19,13 +20,16 @@ public class ScoreManager : MonoBehaviour
     public void SetScore(Team _team, UserInfo _userInfo, int _score)
     {
         if (_team.GetTeamName().Equals(blueTeam.GetTeamName()))
-        {
+        { // blueteam goal == blueteam player
             blueTeam.SetTeamScore(_score);
+            UIManager.instance.UpdateBlueteamScore(blueTeam.GetTeamScore());
         }
         if (_team.GetTeamName().Equals(redTeam.GetTeamName()))
-        {
+        { // redteam goal == redteam player
             redTeam.SetTeamScore(_score);
+            UIManager.instance.UpdateRedteamScore(redTeam.GetTeamScore());
         }
+        // 개인 점수 정보도 업데이트해줌
         _userInfo.SetInGamePersonalScore(_score);
     }
 

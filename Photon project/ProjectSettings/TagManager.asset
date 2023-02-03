@@ -5,11 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - RedTeam
+  - RedPlayer
+  - BlueTeam
+  - Wall
+  - NotWalkable
+  - BluePlayer
+  - Floor
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - InMap
   - Water
   - UI
   - 
