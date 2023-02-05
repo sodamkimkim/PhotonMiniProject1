@@ -50,6 +50,11 @@ MonoBehaviour:
   - Applyhp
   - SetUp
   - ApplyPlayerIdx
+  - PrintNick
+  - DoAnimation
+  - SetFlagWithPlayer
+  - SetParentWithPlayer
+  - SetFlagOriginPos
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

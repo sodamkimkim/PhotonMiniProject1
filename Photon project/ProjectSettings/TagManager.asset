@@ -12,6 +12,9 @@ TagManager:
   - NotWalkable
   - BluePlayer
   - Floor
+  - Bullet
+  - FrontCam
+  - Flag
   layers:
   - Default
   - TransparentFX

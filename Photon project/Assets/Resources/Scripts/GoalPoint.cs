@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class GoalPoint : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class GoalPoint : MonoBehaviourPun
 {
     [SerializeField]
-    private GameObject cellebrationPrefab = null;
+    private GameObject blueCelebration = null;
     [SerializeField]
-    private ScoreManager scoreManager = null;
+    private GameObject redCelebration = null;
+
     private const int flagScore = 1;
     private void OnCollisionEnter(Collision _other)
     {
@@ -17,7 +19,7 @@ public class GoalPoint : MonoBehaviour
             Flag flag = _other.gameObject.GetComponentInChildren<Flag>();
             if (flag != null)
             {
-                    UserInfo userInfo = _other.gameObject.GetComponent<UserInfo>();
+                UserInfo userInfo = _other.gameObject.GetComponent<UserInfo>();
                 Debug.Log("±ê¹ß°¡Áø player´Ù!");
 
                 if (this.gameObject.CompareTag(ScoreManager.eTeamName.BlueTeam.ToString())) // bluteam postÀÏ ¶§ ¿©±â ½ÇÇà
@@ -25,8 +27,8 @@ public class GoalPoint : MonoBehaviour
                     if (_other.gameObject.CompareTag("BluePlayer"))
                     {
                         Team blueTeam = _other.gameObject.GetComponent<BlueTeam>();
-                    GetScoreActions(blueTeam, userInfo);
                         flag.SetFlagOriginPos();
+                        GetScoreActions(blueTeam, userInfo);
                     }
                     else
                     {
@@ -39,8 +41,8 @@ public class GoalPoint : MonoBehaviour
                     if (_other.gameObject.CompareTag("RedPlayer"))
                     {
                         Team redTeam = _other.gameObject.GetComponent<RedTeam>();
-                        GetScoreActions(redTeam, userInfo);
                         flag.SetFlagOriginPos();
+                        GetScoreActions(redTeam, userInfo);
 
                     }
                     else
@@ -61,17 +63,27 @@ public class GoalPoint : MonoBehaviour
     private void GetScoreActions(Team _team, UserInfo _userInfo)
     {
         Transform userTr = _userInfo.gameObject.GetComponent<Transform>();
- 
-        Debug.Log(_team.GetTeamName() + " 1Á¡ È¹µæ!");
+
+        Debug.LogError(_team.GetTeamName() + " 1Á¡ È¹µæ!");
         // TeamÁ¤º¸,  playerÁ¤º¸¶û Á¡¼ö ScoreManager¿¡ ´øÁ®ÁÜ
-        scoreManager.SetScore(_team, _userInfo, flagScore);
-        LaunchCellebration(userTr);
-        Debug.Log(scoreManager.ToString());
+        ScoreManager.instance.SetScore(_team, _userInfo, flagScore);
+        LaunchCelebration(_team, userTr);
+        Debug.Log(ScoreManager.instance.ToString());
     }
-    private void LaunchCellebration(Transform _playerTr)
+    private void LaunchCelebration(Team _team, Transform _playerTr)
     {
-        GameObject go = Instantiate(cellebrationPrefab, _playerTr.position, Quaternion.identity);
+        Debug.LogError(_team.GetTeamName());
+        GameObject go = null;
+        if (_team.GetTeamName().Equals(ScoreManager.eTeamName.BlueTeam.ToString()))
+        {
+            go = PhotonNetwork.Instantiate(blueCelebration.name, _playerTr.position, Quaternion.identity);
+        }
+        else
+        {
+            go = PhotonNetwork.Instantiate(redCelebration.name, _playerTr.position, Quaternion.identity);
+        }
         go.transform.SetParent(_playerTr);
         Destroy(go, 3);
     }
+
 } // end of class

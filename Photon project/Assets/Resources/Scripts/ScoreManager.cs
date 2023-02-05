@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager instance
+    {
+        get
+        {
+            if(m_instance ==null)
+            {
+                m_instance = FindObjectOfType<ScoreManager>();
+            }
+            return m_instance;
+        }
+    }
+    private static ScoreManager m_instance;
     public enum eTeamName { BlueTeam, RedTeam }
 
     // Blue goal post obj를 넣어주기
@@ -15,7 +27,10 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-
+        if(instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
     public void SetScore(Team _team, UserInfo _userInfo, int _score)
     {

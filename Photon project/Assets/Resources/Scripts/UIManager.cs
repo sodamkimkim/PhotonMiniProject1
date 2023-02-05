@@ -33,6 +33,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI nowTimeTxt;
 
+    [SerializeField]
+    private TextMeshProUGUI playerIdxTxt;
+
+    [SerializeField]
+    private TextMeshProUGUI  playerNickText;
+
     private void Awake()
     {
         if(instance != this)
@@ -60,5 +66,13 @@ public class UIManager : MonoBehaviour
     public void SetEndTime(int _endTime)
     {
         endTimeTxt.text = "" + _endTime;
+    }
+    public void SetplayerIdx(int _playerIdx)
+    {
+        playerIdxTxt.text = "" + _playerIdx;
+    }
+    public void SetNickName(string _nickName)
+    {
+        playerNickText.text = "" + _nickName;
     }
 } // end of class

@@ -17,7 +17,7 @@ public class Flag : MonoBehaviour
         if (_other.gameObject.CompareTag("BluePlayer") || _other.gameObject.CompareTag("RedPlayer"))
         {
             Debug.Log(_other.tag.ToString() + "가 flag를 차지했다!");
-            PlayerMove playerMove = _other.gameObject.GetComponent<PlayerMove>();
+            PlayerCtrl playerMove = _other.gameObject.GetComponent<PlayerCtrl>();
             Transform playerTr = playerMove.GetPlayerTr();
             SetParentWithPlayer(playerTr);
         }
@@ -33,7 +33,7 @@ public class Flag : MonoBehaviour
     }
 
     // player와 flag가 충돌했을 때 flag의 위치, 사이즈, rot변화
-  private void   SetFlagWithPlayer(Transform _parentTr)
+    private void SetFlagWithPlayer(Transform _parentTr)
     {
         //Vector3 newPos = _parentTr.position;
         Vector3 newPos = Vector3.zero;

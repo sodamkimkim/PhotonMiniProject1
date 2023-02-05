@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private GameObject redPlayerPrefab;
     private int redScore = 0;
     private int blueScore = 0;
-    private const int gameEndRunTime = 300;
+    private int gameEndRunTime = 500;
     private float gameNowtime;
     private Vector3 redPlayerOriginPos = new Vector3(-0.33f, 8.33f, -6.35f);
     private Vector3 bluePlayerOriginPos = new Vector3(0.33f, 8.33f, 6.35f);
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private int playerIdx;
     private void Awake()
     {
-        UIManager.instance.SetEndTime(gameEndRunTime);
+
         if (instance != this)
         {
             Destroy(gameObject);
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         CreatePlayer();
+        gameEndRunTime = 500;
     }
     private void CreatePlayer()
     {
@@ -52,23 +53,37 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             Vector3 playerPos = new Vector3(0, 0, 0);
             GameObject playerGo = null;
-
-            if (playerIdx % 2 == 0)
-            { // ÇöÀç ¹æ ¸â¹ö Â¦¼ö¸é ºí·çÆÀÀ¸·Î »ý¼º
+            int playerCnt = PhotonNetwork.CurrentRoom.PlayerCount;
+            if (playerCnt % 2 == 1)
+            { 
                 playerGo = PhotonNetwork.Instantiate(bluePlayerPrefab.name, bluePlayerOriginPos, Quaternion.identity);
-                photonView.RPC("ApplyPlayerIdx", RpcTarget.All);
+                playerGo.transform.rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+               photonView.RPC("ApplyPlayerList", RpcTarget.All);
+                UIManager.instance.SetNickName(playerGo.GetPhotonView().name);
+
+                Debug.LogError("2:" + playerGo.name);
             }
             else
-            { // ÇöÀç ¹æ ¸â¹ö È¦¼ö¸é ·¹µåÆÀÀ¸·Î »ý¼º
+            { 
                 playerGo = PhotonNetwork.Instantiate(redPlayerPrefab.name, redPlayerOriginPos, Quaternion.identity);
-                photonView.RPC("ApplyPlayerIdx", RpcTarget.All);
+                //playerIdx++;
+                photonView.RPC("ApplyPlayerList", RpcTarget.All);
+                //if(PhotonNetwork.IsMasterClient)
+                {
+                UIManager.instance.SetNickName(playerGo.GetPhotonView().name);
+
+                }
+
+                Debug.LogError("1:" + playerGo.name);
             }
         }
     }
+
     [PunRPC]
-    public void ApplyPlayerIdx()
+    public void ApplyPlayerIdx(int _playerIdx)
     {
-        playerIdx += 1;
+        playerIdx = _playerIdx;
+           UIManager.instance.SetplayerIdx(playerIdx);
     }
     [PunRPC]
     public void ApplyPlayerList()
@@ -101,7 +116,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!isGameover)
         {
+            UIManager.instance.SetEndTime(gameEndRunTime);
             gameNowtime += Time.deltaTime;
+
             UIManager.instance.SetNowTime(gameNowtime);
 
             if (gameNowtime >= gameEndRunTime)
@@ -117,6 +134,16 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             PhotonNetwork.LeaveRoom();
         }
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            UIManager.instance.SetplayerIdx(playerGoList.Count);
+        }
+        else
+        {
+            UIManager.instance.SetplayerIdx(playerIdx);
+
+        }
     }
     private void EndGame()
     {
@@ -129,20 +156,25 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
+            stream.SendNext(gameEndRunTime);
             stream.SendNext(redScore);
             stream.SendNext(blueScore);
             stream.SendNext(gameNowtime);
-            stream.SendNext(playerIdx);
+            stream.SendNext(playerGoList.Count);
 
         }
         else
         {
+            gameEndRunTime = (int)stream.ReceiveNext();
             redScore = (int)stream.ReceiveNext();
             blueScore = (int)stream.ReceiveNext();
             gameNowtime = (float)stream.ReceiveNext();
             playerIdx = (int)stream.ReceiveNext();
 
+            UIManager.instance.SetEndTime(gameEndRunTime);
             UIManager.instance.SetNowTime(gameNowtime);
+          //  UIManager.instance.SetplayerIdx(playerIdx);
+
         }
     }
     public override void OnLeftRoom()
